@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atharv Holkar | Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+@media (min-width: 901px) {
+    body {
+        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%23d4af37' d='M12 2L2 12l10 10 10-10L12 2zm0 16.5L5.5 12 12 5.5l6.5 6.5-6.5 6.5z'/%3E%3C/svg%3E") 12 12, auto !important;
+    }
+    a, button, .cell, .card {
+        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%23f7e3b9' d='M12 2L2 12l10 10 10-10L12 2z'/%3E%3C/svg%3E") 12 12, pointer !important;
+    }
+}
+        /* CSS Reset & Updated Premium Variables */
+        :root {
+            /* Backgrounds: Less stark black, deeper slate */
+            --bg-color: #0a0a0a; 
+            --card-bg: #084c52;
+            /* Texts: Balanced for readability and style */
+            --text-main: #e3ecec;
+            --text-muted: #f2f9f8;
+            /* Accents: Sophisticated gold/brass tones */
+            --accent: #d4af37; 
+            --accent-hover: #f7e3b9; 
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        /* --- GAME LOCK SCREEN --- */
+        #game-screen {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: radial-gradient(circle at center, #2d3748 0%, #1a202c 100%);
+            padding: 2rem;
+            z-index: 9999;
+        }
+
+        .game-intro h1 {
+            font-size: 2.5rem;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        .game-intro h1 span {
+            color: var(--accent);
+        }
+
+        .game-intro p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(3, 90px);
+            grid-gap: 10px;
+            margin: 1rem auto;
+            background: rgba(212, 175, 55, 0.05); /* Premium faint accent glow */
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+
+        .cell {
+            width: 90px;
+            height: 90px;
+            background: #1a202c;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cell:hover {
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .cell.x { color: var(--accent); }
+        .cell.o { color: #f7e3b9; }
+
+        #game-status {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+            height: 24px;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        #enter-portfolio-btn {
+            display: none;
+            margin-top: 2rem;
+            padding: 1rem 2.5rem;
+            background: var(--accent);
+            color: #000;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            animation: fadeIn 1s ease-in;
+        }
+
+        #enter-portfolio-btn:hover {
+            background: var(--accent-hover);
+            color: #000;
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(247, 227, 185, 0.8);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+
+        /* --- MAIN PORTFOLIO --- */
+        #main-portfolio {
+            display: none;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background:#16385333;
+            backdrop-filter: blur(12px);
+            padding: 1.2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Social Icons in Top Nav */
+        .nav-socials {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-socials a, .footer-socials a {
+            color: var(--accent);
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-socials a:hover, .footer-socials a:hover {
+            color: var(--accent-hover);
+            transform: translateY(-3px) scale(1.1);
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.8);
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            margin-left: 2rem;
+            transition: color 0.3s;
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Common Section Styles */
+        section {
+            padding: 120px 5% 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            margin-bottom: 2.5rem;
+            color: var(--text-main);
+            border-bottom: 2px solid var(--accent);
+            display: inline-block;
+            padding-bottom: 0.5rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        /* Hero Section */
+        #home {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5rem;
+        }
+
+        /* Updated Profile Picture Styles: Circle with Premium Frame */
+        .profile-img {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            object-fit: cover;
+            /* Premium matte gold border */
+            border: 8px solid var(--accent);
+            /* Soft, sophisticated shadow */
+            box-shadow: 0 0 45px rgba(212, 175, 55, 0.4);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            position: relative;
+        }
+
+        .profile-img:hover {
+            transform: scale(1.05);
+            /* Increase glow on hover */
+            box-shadow: 0 0 60px rgba(231, 229, 225, 0.6);
+        }
+
+        .hero-content h1 {
+            font-size: 4.5rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.1;
+            font-weight: 700;
+        }
+
+        .hero-content h1 span {
+            color: var(--accent);
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+        }
+
+        .hero-content h3 {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            font-weight: 400;
+            min-height: 36px;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            background-color: var(--accent);
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.9rem 2.5rem;
+            background: transparent;
+            color: var(--accent);
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            border: 2px solid var(--accent);
+            transition: all 0.4s ease;
+        }
+
+        .btn:hover {
+            background: var(--accent);
+            color: #000;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+        }
+
+        /* About & Cards */
+        .about-text {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 900px;
+            font-weight: 300;
+        }
+
+        .about-text p { margin-bottom: 1.5rem; }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.05);
+            transition: transform 0.4s, border-color 0.4s, box-shadow 0.4s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(212, 175, 55, 0.4);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.15);
+        }
+
+        .card h3 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .card h4 {
+            margin-bottom: 1rem;
+            color: var(--text-main);
+            font-weight: 400;
+        }
+
+        .date {
+            font-size: 0.85rem;
+            color: var(--accent-hover);
+            margin-bottom: 1.5rem;
+            display: block;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        /* Tags */
+        .project-tags {
+            margin-top: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .tag {
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--accent);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .project-bullets {
+            margin-top: 1.5rem;
+            margin-left: 1.2rem;
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        .project-bullets li { margin-bottom: 0.8rem; }
+
+        /* Blog Section */
+        .blogs-content p {
+            margin-bottom: 1.2rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        .blogs-card {
+            max-width: 900px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 5%;
+            border-top: 1px solid rgba(32, 35, 60);
+            background:#16385333;
+        }
+        
+        .footer-socials {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            #home {
+                flex-direction: column-reverse;
+                text-align: center;
+                gap: 2rem;
+                padding-top: 150px;
+            }
+            .hero-content h1 { font-size: 3.2rem; }
+            .nav-links { display: none; }
+            .profile-img {
+                width: 200px;
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="game-screen">
+        <div class="game-intro">
+            <h1>Welcome to <span>My portfolio</span></h1>
+            <p>Beat the system to unlock my portfolio.</p>
+        </div>
+        
+        <div id="game-status">Your turn! (X)</div>
+        
+        <div class="game-board" id="board">
+            <div class="cell" data-index="0"></div>
+            <div class="cell" data-index="1"></div>
+            <div class="cell" data-index="2"></div>
+            <div class="cell" data-index="3"></div>
+            <div class="cell" data-index="4"></div>
+            <div class="cell" data-index="5"></div>
+            <div class="cell" data-index="6"></div>
+            <div class="cell" data-index="7"></div>
+            <div class="cell" data-index="8"></div>
+        </div>
+        
+        <button id="enter-portfolio-btn" onclick="unlockPortfolio()">Access Portfolio</button>
+    </div>
+
+    <div id="main-portfolio">
+        <nav>
+            <div class="nav-left">
+                <div class="nav-socials">
+                    <a href="https://www.linkedin.com/in/atharvholkar/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/Atharv-mu" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#experience">Experience</a>
+                <a href="#projects">Projects</a>
+                <a href="#education">Education</a>
+                <a href="#blogs">Blogs</a>
+            </div>
+        </nav>
+
+        <section id="home">
+            <div class="hero-content">
+                <h1>Hi, I am <br><span>Atharv Holkar</span></h1>
+                <h3><span id="typed-text"></span><span class="cursor">|</span></h3>
+                <a href="#projects" class="btn">View My Work</a>
+            </div>
+            <img class="profile-img" src="https://media.licdn.com/dms/image/v2/D4D03AQGZ8VPypGCKKA/profile-displayphoto-scale_400_400/B4DZ5qPUnMIUAk-/0/1779898863268?e=1782345600&v=beta&t=pRDvqusKs2mNcdWg3Bv5Xt9TQzn9lC8r3qhma_ivRJw">
+        </section>
+
+        <section id="about">
+            <br>
+            <h2>About Me</h2>
+            <div class="about-text">
+            <br>    
+                <p>
+                Hello Everyone! I am Atharv Holkar, a passionate Computer Science Engineering undergraduate with a strong enthusiasm for technology, problem-solving, and continuous learning. I enjoy exploring how software can solve real-world challenges and am always eager to expand my knowledge by learning new programming languages, frameworks, and modern development tools.
+                Currently, I am focusing on strengthening my fundamentals in Data Structures and Algorithms (DSA) to improve my analytical thinking, coding efficiency, and problem-solving abilities. Alongside this, I am exploring various technologies and tech stacks, including web development, software engineering practices, and emerging trends in the technology industry. I believe that learning by building projects is one of the best ways to grow, so I actively work on developing practical applications that enhance my technical skills and provide meaningful user experiences.
+                Beyond academics, I am passionate about collaborating with like-minded individuals and professionals from diverse backgrounds. I strongly believe that innovation thrives through teamwork, knowledge sharing, and the exchange of unique perspectives. Connecting with people from different domains not only broadens my understanding but also opens opportunities to create impactful and visionary projects that address real-world problems.
+                I am always excited to take on new challenges, contribute to open-source initiatives, participate in hackathons, and explore opportunities that help me grow as a developer and a problem solver. My goal is to continuously improve my technical expertise while developing strong communication, leadership, and collaboration skills that are essential for building successful products and working in dynamic teams.
+                As I continue my learning journey, I remain committed to staying updated with the latest advancements in technology, embracing new challenges, and building innovative solutions that make a positive impact. I look forward to connecting with developers, mentors, and innovators who share a passion for technology, creativity, and lifelong learning.
+                </p>
+            </div>
+        </section>
+
+        <section id="experience">
+            <h2>Experience</h2>
+            <div class="grid-container">
+                 <div class="card">
+                    <h3>Intern</h3>
+                    <h4>Positive Way Solution Private Limited</h4>
+                    <span class="date">June 2026 - Present | Remote</span>
+                    <p style="color: var(--text-muted)">Currently working as an Full Stack Web Development Intern.</p>
+                </div>
+                <div class="card">
+                    <h3>Open Source Contributor</h3>
+                    <h4>GirlScript Summer of Code</h4>
+                    <span class="date">May 2026 - Present | Remote</span>
+                    <p style="color: var(--text-muted)">Selected as a Contributor and Campus Ambassador for GSSoC'26.</p>
+                </div>
+                <div class="card">
+                    <h3>Founder</h3>
+                    <h4>Athinyx</h4>
+                    <span class="date">Sep 2025 - Feb 2026 | Remote</span>
+                    <p style="color: var(--text-muted)">Led business development and creative technology initiatives.</p>
+                </div>
+         <div class="card">
+                    <h3>Intern</h3>
+                    <h4>Muskurahat Foundation</h4>
+                    <span class="date">dec 2025 - dec 2025 | Remote</span>
+                    <p style="color: var(--text-muted)">Worked as the Crowd Funding Intern at Muskurahat Foundation.</p>
+                </div>
+         <div class="card">
+                    <h3>Intern</h3>
+                    <h4>Acmegrade</h4>
+                    <span class="date">dec 2025 - dec 2025 | Remote</span>
+                    <p style="color: var(--text-muted)">Mentored the students who were looking for their colleges</p>
+                </div> 
+          <div class="card">
+                    <h3>Mentor</h3>
+                    <h4>Admeasy India</h4>
+                    <span class="date">April 2025 - May 2025 | Remote</span>
+                    <p style="color: var(--text-muted)">Worked as the Crowd Funding Intern at Muskurahat Foundation.</p>
+                </div> 
+            </div>
+        </section>
+
+
+        <section id="projects">
+            <br>
+            <h2>Projects</h2>
+            <div class="card" style="margin-bottom: 2rem;">
+                <h3>Smart Tourism Platform (SIH 2k25)</h3>
+                <span class="date">Sep 2025</span>
+                <p style="color: var(--text-muted)">Developed a smart tourism platform aimed at improving traveler safety, authenticity of information, and access to real-time emergency assistance. The solution focused on bridging gaps in reliable travel data, local experiences, and rapid response support through a scalable web-based system.</p>
+                
+                <ul class="project-bullets">
+                  <li> Built a GPS-enabled recommendation system to display nearby tourist attractions, restaurants, hotels, and other travel services based on the user's location.</li>  
+                  <li> Designed an emergency assistance section with quick access to nearby hospitals, police stations, hotels, and emergency contact information.</li>  
+                  <li> Developed a local discovery feature showcasing popular attractions, hidden tourist spots, and cultural experiences through an intuitive user interface.</li> 
+                  <li> Created a responsive and user-friendly interface using modern HTML, CSS, and JavaScript for seamless navigation across devices. </li>
+                  <li> Deployed the application on Netlify for fast, reliable, and scalable web hosting. </li> 
+                </ul>
+
+                <div class="project-tags">
+                    <span class="tag">HTML</span>
+                    <span class="tag">CSS</span>
+                    <span class="tag">JavaScript</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="education">
+            <h2>Education</h2>
+            <div class="grid-container">
+                <div class="card">
+                    <h4>B.Tech CSE, Medicaps University</h4>
+                    <span class="date">Sep 2024 - Jun 2028</span>
+                    <p style="color: var(--text-muted)"><strong>Grade:</strong> 7.7 CGPA</p>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;"><strong>Activities:</strong> Yoga and Spiritual Club, Computer Society of India</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="Blogs">
+            <br>
+            <h2>Blogs</h2>
+            <div class="card Blog-card">
+                <h3>From Setbacks to Stability: My Journey to CSE Core</h3>
+                <span class="date">Personal Journey</span>
+                <div class="Blog-content">
+                    <p style="color: var(--text-muted)"> My primary goal was simple to get into a government engineering college. I worked really hard for it and during counselling I came very close. At the college-level counselling stage, I truly believed I was going to make it. But it didn't happen.
+                    That moment hit me hard. I felt disappointed, sad, and honestly a bit lost. It felt like all my effort had led to a dead end.
+                    Since my rank wasn't high enough, I decided not to drop a year and instead joined another private college. I took admission in Robotics and Automation, even though deep down I knew it wasn't the branch I truly wanted. My real goal had always been Computer Science Engineering (CSE Core).
+                    After one month, with my father's support, I requested the college for a branch change to CSE. They didn't approve it because my percentage was low, but they allowed me to move to Information Technology instead. It wasn't my dream branch, but it felt like a small step closer.
+                    Even then, my goal never changed. I decided to stay patient, work on myself, and wait for another opportunity. The whole year felt like a test of patience. There were moments of frustration, self-doubt, and uncertainty, but I kept going.
+                    Finally, after a long wait, I got another chance and this time I made it to CSE Core.
+                    This journey wasn't just about changing a branch. It was about handling disappointment, staying patient, and continuing even when things don't go as planned. Sometimes life doesn't give you what you want immediately, but if you stay consistent and don't give up, you eventually reach where you're meant to be.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-socials">
+                <a href="https://www.linkedin.com/in/atharvholkar/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="https://github.com/Atharv-mu" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Designed and Built by Atharv Holkar</p>
+        </footer>
+    </div>
+
+    <script>
+        // --- SINGLE PLAYER TIC-TAC-TOE LOGIC ---
+        const cells = document.querySelectorAll('.cell');
+        const statusText = document.getElementById('game-status');
+        const unlockBtn = document.getElementById('enter-portfolio-btn');
+        let board = ["", "", "", "", "", "", "", "", ""];
+        let currentPlayer = "X"; // User is always X
+        let running = true;
+        
+        const winConditions = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+            [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+            [0, 4, 8], [2, 4, 6]             // Diagonals
+        ];
+
+        cells.forEach(cell => cell.addEventListener('click', cellClicked));
+
+        function cellClicked() {
+            const cellIndex = this.getAttribute('data-index');
+            
+            // Allow click only if cell is empty, game is running, and it's X's turn
+            if (board[cellIndex] !== "" || !running || currentPlayer !== "X") return;
+            
+            updateCell(this, cellIndex);
+            checkWinner();
+            
+            // If game is still running after User's turn, trigger Computer's turn
+            if (running) {
+                currentPlayer = "O";
+                statusText.textContent = "Computer is thinking...";
+                setTimeout(computerMove, 600); // 600ms delay for realistic feel
+            }
+        }
+
+        function updateCell(cellElement, index) {
+            board[index] = currentPlayer;
+            cellElement.textContent = currentPlayer;
+            cellElement.classList.add(currentPlayer.toLowerCase());
+        }
+
+        function computerMove() {
+            if(!running) return;
+
+            let availableCells = [];
+            board.forEach((cell, index) => {
+                if (cell === "") availableCells.push(index);
+            });
+
+            if (availableCells.length === 0) return;
+
+            // Pick a random available cell
+            let randomIndex = Math.floor(Math.random() * availableCells.length);
+            let chosenCellIndex = availableCells[randomIndex];
+            let cellElement = document.querySelector(`.cell[data-index='${chosenCellIndex}']`);
+
+            updateCell(cellElement, chosenCellIndex);
+            checkWinner();
+
+            if (running) {
+                currentPlayer = "X";
+                statusText.textContent = "Your turn! (X)";
+            }
+        }
+
+        function checkWinner() {
+            let roundWon = false;
+            for (let i = 0; i < winConditions.length; i++) {
+                const [a, b, c] = winConditions[i];
+                if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+                    roundWon = true;
+                    break;
+                }
+            }
+
+            if (roundWon) {
+                if(currentPlayer === "X") {
+                    statusText.innerHTML = `Game Over! <span style="color:var(--accent)">You Win!</span>`;
+                } else {
+                    statusText.innerHTML = `Game Over! <span style="color:#ff007f">Computer Wins!</span>`;
+                }
+                endGame();
+            } else if (!board.includes("")) {
+                statusText.textContent = `Game Over! It's a Draw!`;
+                endGame();
+            }
+        }
+
+        function endGame() {
+            running = false;
+            unlockBtn.style.display = "inline-block"; // Shows the button to enter portfolio
+        }
+
+        // --- TRANSITION TO PORTFOLIO ---
+        function unlockPortfolio() {
+            document.getElementById('game-screen').style.display = 'none';
+            document.getElementById('main-portfolio').style.display = 'block';
+            window.scrollTo(0, 0); 
+            typeEffect();
+        }
+
+        // --- TYPING ANIMATION LOGIC ---
+        const phrases = ["Full-Stack Developer", "GSSoC'26 Contributor", "Founded Athinyx"];
+        let phraseIndex = 0;
+        let letterIndex = 0;
+        let isDeleting = false;
+        
+        function typeEffect() {
+            const typedTextSpan = document.getElementById("typed-text");
+            if(!typedTextSpan) return;
+
+            const currentPhrase = phrases[phraseIndex];
+            
+            if (isDeleting) {
+                typedTextSpan.textContent = currentPhrase.substring(0, letterIndex - 1);
+                letterIndex--;
+            } else {
+                typedTextSpan.textContent = currentPhrase.substring(0, letterIndex + 1);
+                letterIndex++;
+            }
+
+            let typeSpeed = isDeleting ? 50 : 100;
+
+            if (!isDeleting && letterIndex === currentPhrase.length) {
+                typeSpeed = 2000; 
+                isDeleting = true;
+            } else if (isDeleting && letterIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                typeSpeed = 500; 
+            }
+
+            setTimeout(typeEffect, typeSpeed);
+        }
+    </script>
+</body>
+</html>
